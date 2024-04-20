@@ -58,3 +58,11 @@ class Bluetooth:
             return uid
         else:
             return 0
+    def node(self,actlist):
+        i = 0
+        length = len(actlist)
+        while True:
+            btstr = self.serial_read_string()
+            if btstr == "node" and i < length:
+                self.serial_write_string(actlist[i])
+                i = i + 1
