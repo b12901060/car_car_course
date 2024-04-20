@@ -60,7 +60,6 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
                 #tell car next step
                 interface.bt.serial_write_string(f"")
             else :
-                msgreceive = interface.get_UID()
                 point.add_UID(msgreceive)
             if not interface.bt.do_connect(bt_port):#need another condition to break
                 break
