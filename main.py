@@ -51,13 +51,16 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
         log.info("Mode 1: Self-testing mode.")
         # TODO: You can write your code to test specific function.
         time.sleep(3)
+        interface.start()
         while True:
             msgreceive = interface.bt.serial_read_string()
             if msgreceive == "node":
+                #TODO:
                 #if car arrive node
                 #tell car next step
                 interface.bt.serial_write_string(f"")
             else :
+                msgreceive = interface.get_UID()
                 point.add_UID(msgreceive)
             if not interface.bt.do_connect(bt_port):#need another condition to break
                 break
