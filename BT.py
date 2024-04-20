@@ -19,7 +19,7 @@ class Bluetooth:
         self.serial = Serial()
 
     def do_connect(self, port: str):
-        #return True
+        #return True #unlock this line when don't need to connect bt 
         self.serial.close()
         log.info(f"Connecting to {port}...")
         try:
