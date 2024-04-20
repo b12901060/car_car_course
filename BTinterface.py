@@ -23,22 +23,28 @@ class BTInterface:
 
     def start(self):
         input("Press enter to start.")
-        self.bt.serial_write_string("c")
+        self.bt.serial_write_string("s")
 
     def get_UID(self):
         return self.bt.serial_read_byte()
-
     def send_action(self, dirc):
-        # TODO : send the action to car
-        self.bt.serial_write_string(f"{dirc}")
+        self.bt.serial_write_string(dirc)
         return
+    def read(self,actlist,i):
+        length = len(actlist)
+        btstr = self.bt.serial_read_string()
+        
+        if btstr == "node" and i < length: 
+                self.send_action(actlist[i])   
+                i=i+1          
+        else:
+                print(btstr)   
+        return
+    
 
     def end_process(self):
         self.bt.serial_write_string("e")
         self.bt.disconnect()
 
 
-if __name__ == "__main__":
-    test = BTInterface()
-    test.start()
-    test.end_process()
+
