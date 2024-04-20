@@ -30,17 +30,13 @@ class BTInterface:
     def send_action(self, dirc):
         self.bt.serial_write_string(dirc)
         return
-    def read(self,actlist,i):
-        length = len(actlist)
+    def read(self):    
         btstr = self.bt.serial_read_string()
-        
-        if btstr == "node" and i < length: 
-                self.send_action(actlist[i])   
-                i=i+1          
-        else:
-                print(btstr)   
+        if btstr != "node" :
+            print(f"{btstr}\n")  
         return
-    
+    def node(self,actlist):
+        self.bt.node(actlist)
 
     def end_process(self):
         self.bt.serial_write_string("e")
