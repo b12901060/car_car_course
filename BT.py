@@ -19,14 +19,15 @@ class Bluetooth:
         self.serial = Serial()
 
     def do_connect(self, port: str):
-        #return True #unlock this line when don't need to connect bt 
         self.serial.close()
         log.info(f"Connecting to {port}...")
         try:
             self.serial = Serial(port, 9600, timeout=2)
-            log.info("Success\n")
+            log.info("C\n")
+            self.serial_write_string("c")
+            
         except SerialException:
-            log.warning("Fail to connect\n")
+            log.warning("F\n")
             return False
         return True
 
