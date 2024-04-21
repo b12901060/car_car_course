@@ -29,6 +29,13 @@ class Maze:
         self.raw_data = pandas.read_csv(filepath).values
         self.nodes = []
         self.node_dict = dict()  # key: index, value: the correspond node
+        indexs = range(1, len(self.raw_data) + 1)  
+        for index in indexs:
+            node=Node(index)
+            for i in range(4):
+                node.set_successor(self.raw_data[index-1][i+1],index,self.raw_data[index-1][i+5])
+            self.nodes.append(node)
+            self.node_dict[index] = node
 
     def get_start_point(self):
         if len(self.node_dict) < 2:
@@ -47,6 +54,31 @@ class Maze:
     def BFS_2(self, node_from: Node, node_to: Node):
         # TODO : similar to BFS but with fixed start point and end point
         # Tips : return a sequence of nodes of the shortest path
+        visited={node_from:True}
+        dist={node_from:0}
+        i=0
+        tmpn=node_to
+        tmps={node_from}
+        path={node_from:None}
+        while i<len(tmps):
+            i=i+1;
+            for successor,-,- in tmps[i],get_successors():
+                if successor not in visited:
+                    visited.append(successor)
+                    visited[successor]=True
+                    dist.append(successor)
+                    dist[successor]=dist[tmps[i]]+1
+                    path.append(successor)
+                    path[successor]=tmps[i]
+                    tmps.append(successor)
+                    if successor == node_to:
+                        short_path = [node_to]
+                        while tmpn!=node_from:
+                            short_path.append(path[tmpn])
+                            tmpn = path[tmpn]
+                        short_path.reverse()
+                        return short_path
+                    
         return None
 
     def getAction(self, car_dir, node_from: Node, node_to: Node):
