@@ -2,7 +2,7 @@ import logging
 from typing import Optional
 
 from BT import Bluetooth
-
+from score import ScoreboardServer, ScoreboardFake
 log = logging.getLogger(__name__)
 
 # hint: You may design additional functions to execute the input command,
@@ -30,13 +30,30 @@ class BTInterface:
     def send_action(self, dirc):
         self.bt.serial_write_string(dirc)
         return
-    def read(self):    
-        btstr = self.bt.serial_read_string()
-        if btstr != "node" :
-            print(f"{btstr}\n")  
-        return
-    def node(self,actlist):
-        self.bt.node(actlist)
+    def read(self,actlist,scoreboard:ScoreboardServer):
+        i = 0
+        length = len(actlist)
+        while True:
+            btstr = self.bt.serial_read_string()
+            if btstr == "node" and i<length:
+                self.send_action(actlist[i])
+                i = i + 1
+                
+            elif btstr== "card":
+                uid = self.bt.serial_read_string()
+                scoreboard.add_UID(uid[:8])
+                remain = uid[8:]
+                if remain == "node" and i<length:
+                    self.send_action(actlist[i])
+                    i = i + 1
+                    
+                else:
+                    print(f"{btstr}\n")
+                    
+            else:
+                print(f"{btstr}\n")  
+                
+
 
     def end_process(self):
         self.bt.serial_write_string("e")
