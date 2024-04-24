@@ -85,11 +85,39 @@ class Maze:
         # TODO : get the car action
         # Tips : return an action and the next direction of the car if the node_to is the Successor of node_to
         # If not, print error message and return 0
+        for successor in node_from.get_succcessors:
+            if successor==node_to:
+                if car_dir==node_from.get_direction(node_to):
+                    return car_dir,1
+                elif abs(car_dir-node_from.get_direction(node_to))==1 and car_dir+node_from.get_direction(node_to)!=5:
+                    act={}
+                    act.append(2)
+                    act.append(1)
+                    car_dir=node_from.get_direction(node_to)
+                    return car_dir,act 
+                elif car_dir==1 and node_from.get_direction(node_to)==3 or car_dir==3 and node_from.get_direction(node_to)==2 or car_dir==2 and node_from.get_direction(node_to)==4 or car_dir==4 and node_from.get_direction(node_to)==1:
+                    act={}
+                    act.append(4)
+                    act.append(1)
+                    car_dir=node_from.get_direction(node_to)
+                    return car_dir,act
+                elif car_dir==3 and node_from.get_direction(node_to)==1 or car_dir==2 and node_from.get_direction(node_to)==3 or car_dir==4 and node_from.get_direction(node_to)==2 or car_dir==1 and node_from.get_direction(node_to)==4:
+                    act={}
+                    act.append(3)
+                    act.append(1)
+                    car_dir=node_from.get_direction(node_to)
+                    return car_dir,act
         return None
 
     def getActions(self, nodes: List[Node]):
         # TODO : given a sequence of nodes, return the corresponding action sequence
         # Tips : iterate through the nodes and use getAction() in each iteration
+        car_dir=0
+        act={}
+        actions={}
+        for i in range(len(List)-1):
+            car_dir,act=getAction(car_dir,List[i],List[i+1]
+            actions.append(act)
         return None
 
     def actions_to_str(self, actions):
