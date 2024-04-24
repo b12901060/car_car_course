@@ -62,7 +62,7 @@ class Maze:
         path={node_from:None}
         while i<len(tmps):
             i=i+1;
-            for successor,-,- in tmps[i],get_successors():
+            for successor in tmps[i].get_successors():
                 if successor not in visited:
                     visited.append(successor)
                     visited[successor]=True
@@ -116,7 +116,7 @@ class Maze:
         act={}
         actions={}
         for i in range(len(List)-1):
-            car_dir,act=getAction(car_dir,List[i],List[i+1]
+            car_dir,act=getAction(car_dir,List[i],List[i+1])
             actions.append(act)
         return None
 
