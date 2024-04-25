@@ -19,7 +19,7 @@ log = logging.getLogger(__name__)
 
 # TODO : Fill in the following information
 TEAM_NAME = "1"
-SERVER_URL = "http://140.112.175.18:5000/"
+SERVER_URL = "http://140.112.175.18:5000/"    
 MAZE_FILE = "data/small_maze.csv"
 BT_PORT = "COM8"
 
@@ -44,7 +44,8 @@ def main(mode: int, bt_port: str,team_name: str,server_url: str):
     # point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
     interface = BTInterface(port=bt_port)
     # TODO : Initialize necessary variables
-    action = ["l","b","s","b","r","b","s"]
+    action = ["l","b","s","b","r","b","s","b"]
+    #action = ["l","l","r","b","l","l","s","l","b","s","b","l","s","s","l","l","s"]
     
     if mode == "0":
         log.info("Mode 0: For treasure-hunting")
