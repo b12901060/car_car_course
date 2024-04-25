@@ -19,8 +19,8 @@ int PWMB = 12;
 double w2=1;
 double w3=2;
 double Kp=40;
-double Tpr=100;
-double Tpl=90;
+double Tpr=120;
+double Tpl=115;
 //double Tpr=50;
 //double Tpl=50;
 
@@ -72,21 +72,21 @@ void motorcontrol(double VL,double VR) {
 }
 
 void turnleft(){
-  motorcontrol(Tpl-40,Tpr+40);
-  delay(800);
+  motorcontrol(Tpl-55,Tpr+55);
+  delay(600);
   return;
 }
 
 void turnright(){
-  motorcontrol(Tpl+45,Tpr-50);
-  delay(800);
+  motorcontrol(Tpl+60,Tpr-65);
+  delay(600);
   return;
 }
 
 void turnback(){
   //delay(300);
   motorcontrol(-Tpl,Tpr);
-  delay(500);
+  delay(300);
   while(true){
     if(digitalRead(L3)==1||digitalRead(L2)==1)
       return;
@@ -126,7 +126,7 @@ void BT(){
   }
 }
 void Tracking() {
-  rfid();
+  //rfid();
   int l3 = digitalRead(L3);
   int l2 = digitalRead(L2);
   int m = digitalRead(M);
@@ -158,20 +158,24 @@ void rfid(){
   
   //mfrc522->PICC_DumpDetailsToSerial(&(mfrc522->uid)); //讀出 UID
   byte *id = mfrc522->uid.uidByte;
-  byte idSize = mfrc522->uid.size; 
-  String uidstr = "";
+  byte idSize = mfrc522->uid.size;
+
+  
+
+  //String uidstr = "";
+  Serial1.write("card\n");
   for (byte i = 0; i < idSize; i++) {  // 逐一顯示UID碼
-    Serial1.print(id[i], HEX);
-    Serial1.write(".");
+    Serial1.write(id[i]);
+    //Serial1.write(".");
     //Serial.print("id[");
     //Serial.print(i);
     //Serial.print("]: ");
-    uidstr = uidstr + String(id[i],HEX);
+    //uidstr = uidstr + String(id[i],HEX);
   } 
   Serial1.write("\n");
-  Serial1.write("card\n");
-  char* uid = uidstr.c_str(); 
-  Serial1.write(uid);
+  
+  //char* uid = uidstr.c_str(); 
+  //Serial1.write(uid);
   
   mfrc522->PICC_HaltA(); // 讓同一張卡片進入停止模式 (只顯示一次)
   mfrc522->PCD_StopCrypto1(); // 停止 Crypto1
@@ -179,13 +183,26 @@ void rfid(){
 }
 int i = 0;
 void loop(){
+  int l3 = digitalRead(L3);
+  int r3 = digitalRead(R3);
   if(Serial1.available()){
-    char connect = Serial1.read();
+    char connect = Serial1.read();   
     if (connect == 'c')
-      i = 1;
+      while(1){
+        gostraight();
+        int l3 = digitalRead(L3);
+        int r3 = digitalRead(R3);
+        if(l3 ==0 &&r3 ==0){
+          i = 1;
+          break;
+        }
+      }
+      
   }
+   
   if(i == 1){ 
-    Tracking(); 
+    Tracking();
+    rfid(); 
   }
   //delay(10);
 }
