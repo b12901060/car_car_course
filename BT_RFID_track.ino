@@ -19,8 +19,8 @@ int PWMB = 12;
 double w2=1;
 double w3=2;
 double Kp=40;
-double Tpr=120;
-double Tpl=115;
+double Tpr=140;
+double Tpl=135;
 //double Tpr=50;
 //double Tpl=50;
 
@@ -72,21 +72,21 @@ void motorcontrol(double VL,double VR) {
 }
 
 void turnleft(){
-  motorcontrol(Tpl-55,Tpr+55);
-  delay(600);
+  motorcontrol(Tpl-70,Tpr+70);
+  delay(500);
   return;
 }
 
 void turnright(){
-  motorcontrol(Tpl+60,Tpr-65);
-  delay(600);
+  motorcontrol(Tpl+70,Tpr-75);
+  delay(500);
   return;
 }
 
 void turnback(){
   //delay(300);
   motorcontrol(-Tpl,Tpr);
-  delay(300);
+  delay(250);
   while(true){
     if(digitalRead(L3)==1||digitalRead(L2)==1)
       return;
@@ -189,10 +189,10 @@ void loop(){
     char connect = Serial1.read();   
     if (connect == 'c')
       while(1){
-        gostraight();
+        motorcontrol(95,100);
         int l3 = digitalRead(L3);
         int r3 = digitalRead(R3);
-        if(l3 ==0 &&r3 ==0){
+        if(l3 +r3 ==0){
           i = 1;
           break;
         }
