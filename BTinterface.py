@@ -31,7 +31,7 @@ class BTInterface:
         self.bt.serial_write_string(dirc)
         return
     def read(self,actlist,scoreboard:ScoreboardServer):
-        i = 0
+        i = 0   
         length = len(actlist)
         while True:
             btstr = self.bt.serial_read_string()
@@ -40,15 +40,15 @@ class BTInterface:
                 i = i + 1
                 
             elif btstr== "card":
-                uid = self.bt.serial_read_string()
-                scoreboard.add_UID(uid[:8])
-                remain = uid[8:]
-                if remain == "node" and i<length:
-                    self.send_action(actlist[i])
-                    i = i + 1
+                uid = self.bt.serial_read_byte()
+                scoreboard.add_UID(uid[2:10])
+                #remain = uid[10:]
+                #if remain == "node" and i<length:
+                    #self.send_action(actlist[i])
+                    #i = i + 1
                     
-                else:
-                    print(f"{btstr}\n")
+                #else:
+                    #print(f"{btstr}\n")
                     
             else:
                 print(f"{btstr}\n")  
