@@ -94,7 +94,7 @@ void turnback(){
 }
 void gostraight(){
   motorcontrol(Tpl, Tpr);
-  delay(500);
+  delay(350);
 }
 void BT(){
   Serial1.write("node\n"); 
