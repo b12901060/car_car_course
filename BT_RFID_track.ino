@@ -9,7 +9,7 @@ MFRC522 *mfrc522;
 #define R2 34
 #define M 36
 #define L2 38
-#define L3 40
+#define L3 30
 int PWMA = 11;
 int AIN2 = 3;
 int AIN1 = 2;
@@ -18,9 +18,10 @@ int BIN2 = 6;
 int PWMB = 12;
 double w2=1;
 double w3=2;
-double Kp=40;
-double Tpr=140;
-double Tpl=135;
+double Kp=30;
+double Tpr=160;
+double Tpl=155;
+
 //double Tpr=50;
 //double Tpl=50;
 
@@ -72,29 +73,38 @@ void motorcontrol(double VL,double VR) {
 }
 
 void turnleft(){
-  motorcontrol(Tpl-70,Tpr+70);
-  delay(500);
+  motorcontrol(Tpl-95,Tpr+95);
+  delay(350);
   return;
 }
 
 void turnright(){
-  motorcontrol(Tpl+70,Tpr-75);
-  delay(500);
+  motorcontrol(Tpl+90,Tpr-95);
+  delay(350);
   return;
 }
 
 void turnback(){
   //delay(300);
   motorcontrol(-Tpl,Tpr);
-  delay(250);
-  while(true){
-    if(digitalRead(L3)==1||digitalRead(L2)==1)
+  
+  //Serial1.print(millis());
+  delay(300);
+  //motorcontrol(-Tpl+20,Tpr-20);
+  while(true){ 
+    motorcontrol(-Tpl,Tpr);  
+    if(digitalRead(L3) == 1||digitalRead(R3)==1){
+      //Serial1.print(millis());
+      
+      motorcontrol(0,0);
+      delay(65);
       return;
+    }
   }
 }
 void gostraight(){
   motorcontrol(Tpl, Tpr);
-  delay(350);
+  delay(300);
 }
 void BT(){
   Serial1.write("node\n"); 
