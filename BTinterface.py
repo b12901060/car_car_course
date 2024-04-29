@@ -35,9 +35,13 @@ class BTInterface:
         length = len(actlist)
         while True:
             btstr = self.bt.serial_read_string()
+            if btstr =="":
+                pass
             if btstr == "node" and i<length:
                 self.send_action(actlist[i])
                 i = i + 1
+            if btstr == "node" and i>=length:
+                self.bt.disconnect()
                 
             elif btstr== "card":
                 uid = self.bt.serial_read_byte()
