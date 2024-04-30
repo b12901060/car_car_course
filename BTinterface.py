@@ -39,6 +39,7 @@ class BTInterface:
                 pass
             if btstr == "node" and i<length:
                 self.send_action(actlist[i])
+                print(f"{actlist[i]}\n")
                 i = i + 1
             if btstr == "node" and i>=length:
                 self.bt.disconnect()
